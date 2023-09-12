@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Quotelytics</string>
+    <string name="title_activity_onboarding">OnboardingActivity</string>
+    <string name="onboarding_title0">Daily Inspiration</string>
+    <string name="onboarding_title1">Daily Wisdom Nuggets</string>
+    <string name="onboarding_title2">Seek, Find, Inspire</string>
+    <string name="onboarding_body0">Elevate your day with a collection of thought-provoking quotes handpicked to ignite your mind and spirit.</string>
+    <string name="onboarding_body1">Immerse yourself in a world of profound insights. Let Quotelishs deliver a fresh, inspirational quote to your fingertips every day.</string>
+    <string name="onboarding_body2">Embark on a journey of daily discovery. QuoteQuest is your companion for seeking meaningful quotes that uplift and motivate.</string>
+    <string name="title_activity_daily_quote">DailyQuoteActivity</string>
+    <string name="get_first_quote">Get first quote</string>
+
+</resources>
