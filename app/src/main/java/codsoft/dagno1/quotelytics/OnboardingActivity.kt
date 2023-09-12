@@ -34,8 +34,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -43,6 +42,7 @@ import androidx.compose.ui.unit.sp
 import codsoft.dagno1.quotelytics.data.OnboardingItem
 import codsoft.dagno1.quotelytics.ui.theme.DarkStateGray
 import codsoft.dagno1.quotelytics.ui.theme.QuotelyticsTheme
+import codsoft.dagno1.quotelytics.ui.theme.interFamily
 
 class OnboardingActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -97,7 +97,7 @@ fun CustomSlider(
                 state = pagerState,
                 modifier = Modifier
                     .fillMaxSize(),
-                pageCount = onboardingItems.size
+                pageCount = onboardingItems.size,
             ) { page ->
                 val item = onboardingItems.getOrNull(page)
                 if (item != null) {
@@ -106,7 +106,6 @@ fun CustomSlider(
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color.White)
                             .padding(16.dp),
                         verticalArrangement = Arrangement.Center,
                         horizontalAlignment = Alignment.CenterHorizontally
@@ -127,7 +126,8 @@ fun CustomSlider(
                         Text(
                             text = stringResource(id = item.titleResId),
                             style = TextStyle(
-                                fontFamily = FontFamily(Font(R.font.inter_bold)),
+                                fontFamily = interFamily,
+                                fontWeight = FontWeight.Bold,
                                 fontSize = 24.sp,
                                 color = DarkStateGray
                             ),
@@ -141,7 +141,8 @@ fun CustomSlider(
                         Text(
                             text = stringResource(id = item.bodyResId),
                             style = TextStyle(
-                                fontFamily = FontFamily(Font(R.font.inter)),
+                                fontFamily = interFamily,
+                                fontWeight = FontWeight.Normal,
                                 fontSize = 15.sp,
                                 color = DarkStateGray
                             ),
@@ -156,7 +157,7 @@ fun CustomSlider(
             Row(
                 modifier = Modifier
                     .align(Alignment.BottomCenter)
-                    .padding(bottom = 16.dp)
+                    .padding(bottom = 75.dp)
                     .fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -174,44 +175,47 @@ fun CustomSlider(
                     )
                 }
             }
-        }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Color.White)
-                .padding(end = 16.dp, bottom = 16.dp),
-            contentAlignment = Alignment.BottomEnd
-        ) {
-            if (pagerState.currentPage == 2) {
-                Button(
-                    onClick = {
-                        val intent = Intent(activity, DailyQuoteActivity::class.java)
-                        intent.flags =
-                            Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        activity.startActivity(intent)
-                    },
-                    modifier = Modifier.height(45.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.get_first_quote),
-                        style = TextStyle(
-                            fontFamily = FontFamily(Font(R.font.inter)),
-                            fontSize = 15.sp,
-                            color = DarkStateGray
-                        ),
-                    )
-                    Image(
-                        painterResource(id = R.drawable.arrow_forward),
-                        contentDescription = "Cart button icon",
-                        modifier = Modifier.size(40.dp)
-                    )
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(Color.Transparent)
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 16.dp, bottom = 16.dp),
+                contentAlignment = Alignment.BottomEnd
+            ) {
+                if (pagerState.currentPage == 2) {
+                    Button(
+                        onClick = {
+                            val intent = Intent(activity, DailyQuoteActivity::class.java)
+                            intent.flags =
+                                Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                            activity.startActivity(intent)
+                        },
+                        modifier = Modifier.height(45.dp),
+                        colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+                    ) {
+                        Text(
+                            text = stringResource(id = R.string.get_first_quote),
+                            style = TextStyle(
+                                fontFamily = interFamily,
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 15.sp,
+                                color = DarkStateGray
+                            ),
+                        )
+                        Image(
+                            painterResource(id = R.drawable.arrow_forward),
+                            contentDescription = "Cart button icon",
+                            modifier = Modifier.size(30.dp)
+                        )
+                    }
+                } else {
+                    Spacer(modifier = Modifier.height(45.dp))
                 }
-            } else {
-                Spacer(modifier = Modifier.height(45.dp))
             }
         }
+
+
     }
 }
 
