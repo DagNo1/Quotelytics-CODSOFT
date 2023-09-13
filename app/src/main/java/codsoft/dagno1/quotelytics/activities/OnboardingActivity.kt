@@ -1,4 +1,4 @@
-package codsoft.dagno1.quotelytics
+package codsoft.dagno1.quotelytics.activities
 
 import android.app.Activity
 import android.content.Intent
@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import codsoft.dagno1.quotelytics.R
 import codsoft.dagno1.quotelytics.data.OnboardingItem
 import codsoft.dagno1.quotelytics.ui.theme.DarkStateGray
 import codsoft.dagno1.quotelytics.ui.theme.QuotelyticsTheme

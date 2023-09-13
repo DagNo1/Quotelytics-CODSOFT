@@ -1,4 +1,4 @@
-package codsoft.dagno1.quotelytics
+package codsoft.dagno1.quotelytics.activities
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -20,6 +20,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import codsoft.dagno1.quotelytics.components.QuoteCard
+import codsoft.dagno1.quotelytics.R
 import codsoft.dagno1.quotelytics.ui.theme.DarkStateGray
 import codsoft.dagno1.quotelytics.ui.theme.QuotelyticsTheme
 
