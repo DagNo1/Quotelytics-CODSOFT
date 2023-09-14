@@ -1,7 +1,11 @@
 package codsoft.dagno1.quotelytics.components
 
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Context
+import android.content.Intent
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -29,6 +33,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.startActivity
 import codsoft.dagno1.quotelytics.R
 import codsoft.dagno1.quotelytics.data.DBHelper
 import codsoft.dagno1.quotelytics.data.Quote
@@ -121,7 +126,14 @@ fun QuoteCard(quote: Quote, context: Context) {
                 )
             }
             IconButton(
-                onClick = {},
+                onClick = {
+                    val quoteToCopy = quote.content + "\n   ~ " + quote.author
+                    val clipboardManager =
+                        context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clipData = ClipData.newPlainText("quote", quoteToCopy)
+                    clipboardManager.setPrimaryClip(clipData)
+                    Toast.makeText(context, "Quote copied to clipboard", Toast.LENGTH_LONG).show()
+                },
                 modifier = Modifier
                     .size(48.dp)
             ) {
@@ -131,7 +143,20 @@ fun QuoteCard(quote: Quote, context: Context) {
                 )
             }
             IconButton(
-                onClick = { },
+                onClick = {
+                    val sharingIntent = Intent(Intent.ACTION_SEND)
+                    sharingIntent.type = "text/plain"
+                    val shareBody = quote.content + "\n   ~ " + quote.author
+                    val shareSubject = "Quote from Quotelytic.(The best app to find quotes)"
+                    sharingIntent.putExtra(Intent.EXTRA_TEXT, shareBody)
+                    sharingIntent.putExtra(Intent.EXTRA_SUBJECT, shareSubject)
+                    startActivity(
+                        context,
+                        Intent.createChooser(sharingIntent, "Share using"),
+                        null
+                    )
+
+                },
                 modifier = Modifier
                     .size(48.dp)
             ) {
