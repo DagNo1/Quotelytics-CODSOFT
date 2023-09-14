@@ -18,7 +18,10 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         val query = ("CREATE TABLE " + TABLE_NAME + " ("
                 + ID + " INTEGER PRIMARY KEY, " +
                 CONTENT + " TEXT," +
-                AUTHOR + " TEXT" + ")")
+                AUTHOR + " TEXT," +
+                IS_READ + " INT DEFAULT 0," +
+                IS_FAVORITE + " INT DEFAULT 0," +
+                FAVORITE_ORDER + " INT DEFAULT -1" + ")")
         db.execSQL(query)
 
 
@@ -73,27 +76,77 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
         cursor!!.moveToFirst()
         return Quote(
+            id = cursor.getInt(cursor.getColumnIndex(ID)),
             content = cursor.getString(cursor.getColumnIndex(CONTENT)),
-            author = cursor.getString(cursor.getColumnIndex(AUTHOR))
+            author = cursor.getString(cursor.getColumnIndex(AUTHOR)),
+            isRead = cursor.getInt(cursor.getColumnIndex(IS_READ)) == 1,
+            isFavorite = cursor.getInt(cursor.getColumnIndex(IS_FAVORITE)) == 1,
+            favoriteOrder = cursor.getInt(cursor.getColumnIndex(FAVORITE_ORDER))
         )
     }
 
     @SuppressLint("Range", "Recycle")
-    fun getRandomQuote(): Quote {
+    fun getRandomUnreadQuote(): Quote {
         val db = this.readableDatabase
-        val randomNumber = Random.nextInt(1, 1001)
 
-        val sqlQuery = "SELECT * FROM $TABLE_NAME WHERE $ID = ?"
+        val sqlQuery = "SELECT * FROM $TABLE_NAME WHERE $IS_READ = 0 ORDER BY RANDOM() LIMIT 1"
 
-        val selectionArgs = arrayOf(randomNumber.toString())
+        val cursor = db.rawQuery(sqlQuery, null)
 
-        val cursor = db.rawQuery(sqlQuery, selectionArgs)
+        if (cursor.moveToFirst()) {
+            return Quote(
+                id = cursor.getInt(cursor.getColumnIndex(ID)),
+                content = cursor.getString(cursor.getColumnIndex(CONTENT)),
+                author = cursor.getString(cursor.getColumnIndex(AUTHOR))
+            )
+        }
 
-        cursor!!.moveToFirst()
-        return Quote(
-            content = cursor.getString(cursor.getColumnIndex(CONTENT)),
-            author = cursor.getString(cursor.getColumnIndex(AUTHOR))
-        )
+        return Quote(-1,"All Quotes Read", "Dagim")
+    }
+
+    fun markQuoteAsRead(quoteId: Int): Boolean {
+        val db = this.writableDatabase
+
+        val values = ContentValues()
+        values.put(IS_READ, 1)
+        val whereClause = "$ID = ?"
+        val whereArgs = arrayOf(quoteId.toString())
+
+        val rowsUpdated = db.update(TABLE_NAME, values, whereClause, whereArgs)
+        return rowsUpdated > 0
+    }
+
+    fun markQuoteAsFavorite(quoteId: Int): Boolean {
+        val db = this.writableDatabase
+
+        val maxFavoriteOrderQuery = "SELECT MAX($FAVORITE_ORDER) FROM $TABLE_NAME"
+        val cursor = db.rawQuery(maxFavoriteOrderQuery, null)
+        var maxFavoriteOrder = 0
+        if (cursor.moveToFirst()) {
+            maxFavoriteOrder = cursor.getInt(0)
+        }
+        val newFavoriteOrder = maxFavoriteOrder + 1
+
+        val values = ContentValues()
+        values.put(IS_FAVORITE, 1)
+        values.put(FAVORITE_ORDER, newFavoriteOrder)
+        val whereClause = "$ID = ?"
+        val whereArgs = arrayOf(quoteId.toString())
+
+        val rowsUpdated = db.update(TABLE_NAME, values, whereClause, whereArgs)
+        return rowsUpdated > 0
+    }
+
+    fun markQuoteAsNotFavorite(quoteId: Int): Boolean {
+        val db = this.writableDatabase
+
+        val values = ContentValues()
+        values.put(IS_FAVORITE, 0)
+        val whereClause = "$ID = ?"
+        val whereArgs = arrayOf(quoteId.toString())
+
+        val rowsUpdated = db.update(TABLE_NAME, values, whereClause, whereArgs)
+        return rowsUpdated > 0
     }
 
     companion object {
@@ -103,5 +156,8 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
         const val ID = "id"
         const val CONTENT = "content"
         const val AUTHOR = "author"
+        const val IS_READ = "is_read"
+        const val IS_FAVORITE = "is_favorite"
+        const val FAVORITE_ORDER = "favorite_rank"
     }
 }
