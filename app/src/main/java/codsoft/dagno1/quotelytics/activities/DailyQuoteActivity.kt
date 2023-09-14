@@ -1,6 +1,7 @@
 package codsoft.dagno1.quotelytics.activities
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -28,7 +29,15 @@ import codsoft.dagno1.quotelytics.ui.theme.QuotelyticsTheme
 class DailyQuoteActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val dbHelper = DBHelper(this, null)
+        val context = this
+        val dbHelper = DBHelper(context, null)
+        val quote = dbHelper.getRandomUnreadQuote()
+        quote.isRead = dbHelper.markQuoteAsRead(quote.id)
+        Log.d(
+            "Read or Not Read",
+            "++++++++++++++++++++++++  " +
+                    "${quote.id} is read = ${quote.isRead}"
+        )
         setContent {
             QuotelyticsTheme {
                 Box(
@@ -55,7 +64,7 @@ class DailyQuoteActivity : ComponentActivity() {
                             .align(Alignment.Center)
                             .padding(horizontal = 15.dp)
                     ) {
-                        QuoteCard(quote = dbHelper.getRandomQuote())
+                        QuoteCard(quote = quote, context = context)
                     }
                     FloatingActionButton(
                         onClick = {
