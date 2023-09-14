@@ -14,72 +14,67 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import codsoft.dagno1.quotelytics.components.QuoteCard
 import codsoft.dagno1.quotelytics.R
+import codsoft.dagno1.quotelytics.components.QuoteCard
+import codsoft.dagno1.quotelytics.data.DBHelper
 import codsoft.dagno1.quotelytics.ui.theme.DarkStateGray
 import codsoft.dagno1.quotelytics.ui.theme.QuotelyticsTheme
 
 class DailyQuoteActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val dbHelper = DBHelper(this, null)
         setContent {
             QuotelyticsTheme {
-                QuotePage()
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(5.dp)
+                ) {
+
+                    Row(
+                        modifier = Modifier.align(Alignment.TopStart),
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        // Add your logo image here
+                        Image(
+                            painter = painterResource(id = R.drawable.logo_with_name),
+                            contentDescription = "Logo",
+                            modifier = Modifier
+                                .width(200.dp)
+                                .height(40.dp)
+                        )
+                    }
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.Center)
+                            .padding(horizontal = 15.dp)
+                    ) {
+                        QuoteCard(quote = dbHelper.getRandomQuote())
+                    }
+                    FloatingActionButton(
+                        onClick = {
+                        },
+                        containerColor = DarkStateGray,
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(vertical = 50.dp, horizontal = 20.dp)
+                            .size(68.dp)
+                            .clip(CircleShape)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.favorites_book),
+                            contentDescription = "favorites",
+                            modifier = Modifier.size(48.dp)
+                        )
+                    }
+                }
             }
-        }
-    }
-}
-
-@Composable
-fun QuotePage() {
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(5.dp)
-    ) {
-
-        Row(
-            modifier = Modifier.align(Alignment.TopStart),
-            horizontalArrangement = Arrangement.Start
-        ) {
-            // Add your logo image here
-            Image(
-                painter = painterResource(id = R.drawable.logo_with_name),
-                contentDescription = "Logo",
-                modifier = Modifier
-                    .width(200.dp)
-                    .height(40.dp)
-            )
-        }
-        Box(
-            modifier = Modifier
-                .align(Alignment.Center)
-                .padding(horizontal = 15.dp)
-        ) {
-            QuoteCard()
-        }
-        FloatingActionButton(
-            onClick = {
-
-            },
-            containerColor = DarkStateGray,
-            modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .padding(vertical = 50.dp, horizontal = 20.dp)
-                .size(68.dp)
-                .clip(CircleShape)
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.favorites_book),
-                contentDescription = "favorites",
-                modifier = Modifier.size(48.dp)
-            )
         }
     }
 }
