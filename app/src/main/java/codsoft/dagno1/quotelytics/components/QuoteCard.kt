@@ -31,6 +31,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat.startActivity
@@ -41,6 +42,7 @@ import codsoft.dagno1.quotelytics.ui.theme.DarkStateGray
 import codsoft.dagno1.quotelytics.ui.theme.FavoriteRed
 import codsoft.dagno1.quotelytics.ui.theme.Mint
 import codsoft.dagno1.quotelytics.ui.theme.WhiteSmoke
+import codsoft.dagno1.quotelytics.ui.theme.interFamily
 
 @Composable
 fun QuoteCard(quote: Quote, context: Context) {
@@ -76,14 +78,17 @@ fun QuoteCard(quote: Quote, context: Context) {
             Text(
                 text = quote.content,
                 textAlign = TextAlign.Center,
+                fontFamily = interFamily,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(20.dp)
             )
             Spacer(modifier = Modifier.height(10.dp))
             Text(
-                text = "~ ${quote.author}",
+                text = "~ ${quote.author ?: "Unknown"}",
                 textAlign = TextAlign.End,
+                fontFamily = interFamily,
+                fontWeight = FontWeight.Medium,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(end = 30.dp)
