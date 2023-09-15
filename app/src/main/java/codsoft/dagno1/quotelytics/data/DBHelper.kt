@@ -3,6 +3,7 @@ package codsoft.dagno1.quotelytics.data
 import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 import java.io.InputStream
@@ -147,6 +148,35 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
         val rowsUpdated = db.update(TABLE_NAME, values, whereClause, whereArgs)
         return rowsUpdated > 0
+    }
+
+    @SuppressLint("Range")
+    fun getFavoriteQuotesSorted(): List<Quote> {
+        val favoriteQuotes = mutableListOf<Quote>()
+        val db = this.readableDatabase
+
+        val query = "SELECT * FROM $TABLE_NAME WHERE $IS_FAVORITE = 1 ORDER BY $FAVORITE_ORDER DESC"
+
+        val cursor: Cursor = db.rawQuery(query, null)
+
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(ID))
+                val content = cursor.getString(cursor.getColumnIndex(CONTENT))
+                val author = cursor.getString(cursor.getColumnIndex(AUTHOR))
+                val isRead = cursor.getInt(cursor.getColumnIndex(IS_READ)) == 1
+                val isFavorite = cursor.getInt(cursor.getColumnIndex(IS_FAVORITE)) == 1
+                val favoriteOrder = cursor.getInt(cursor.getColumnIndex(FAVORITE_ORDER))
+
+                val quote = Quote(id, content, author, isRead, isFavorite, favoriteOrder)
+                favoriteQuotes.add(quote)
+            } while (cursor.moveToNext())
+        }
+
+        cursor.close()
+        db.close()
+
+        return favoriteQuotes
     }
 
     companion object {
