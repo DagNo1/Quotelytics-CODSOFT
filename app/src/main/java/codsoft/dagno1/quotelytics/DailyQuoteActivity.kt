@@ -1,4 +1,4 @@
-package codsoft.dagno1.quotelytics.activities
+package codsoft.dagno1.quotelytics
 
 import android.content.Intent
 import android.os.Bundle
@@ -21,11 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import codsoft.dagno1.quotelytics.R
 import codsoft.dagno1.quotelytics.components.QuoteCard
+import codsoft.dagno1.quotelytics.components.SetStatusBarColor
 import codsoft.dagno1.quotelytics.data.DBHelper
 import codsoft.dagno1.quotelytics.ui.theme.DarkStateGray
+import codsoft.dagno1.quotelytics.ui.theme.Gray
+import codsoft.dagno1.quotelytics.ui.theme.Mint
 import codsoft.dagno1.quotelytics.ui.theme.QuotelyticsTheme
+import codsoft.dagno1.quotelytics.ui.theme.Silver
 
 class DailyQuoteActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +44,7 @@ class DailyQuoteActivity : ComponentActivity() {
         )
         setContent {
             QuotelyticsTheme {
+                SetStatusBarColor(color = Silver)
                 Box(
                     modifier = Modifier
                         .fillMaxSize()

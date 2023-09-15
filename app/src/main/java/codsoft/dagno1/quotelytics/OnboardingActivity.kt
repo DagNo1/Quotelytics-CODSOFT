@@ -1,4 +1,4 @@
-package codsoft.dagno1.quotelytics.activities
+package codsoft.dagno1.quotelytics
 
 import android.app.Activity
 import android.content.Intent
@@ -39,10 +39,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import codsoft.dagno1.quotelytics.R
+import codsoft.dagno1.quotelytics.components.SetStatusBarColor
 import codsoft.dagno1.quotelytics.data.OnboardingItem
 import codsoft.dagno1.quotelytics.ui.theme.DarkStateGray
+import codsoft.dagno1.quotelytics.ui.theme.Gray
 import codsoft.dagno1.quotelytics.ui.theme.QuotelyticsTheme
+import codsoft.dagno1.quotelytics.ui.theme.Silver
 import codsoft.dagno1.quotelytics.ui.theme.interFamily
 
 class OnboardingActivity : ComponentActivity() {
@@ -67,6 +69,7 @@ class OnboardingActivity : ComponentActivity() {
         )
         setContent {
             QuotelyticsTheme {
+                SetStatusBarColor(color = Silver)
                 CustomSlider(onboardingItems = onboardingData, activity = this)
             }
         }

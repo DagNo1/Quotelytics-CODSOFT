@@ -6,8 +6,8 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import java.io.InputStream
-import kotlin.random.Random
 
 
 class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
@@ -102,7 +102,7 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
             )
         }
 
-        return Quote(-1,"All Quotes Read", "Dagim")
+        return Quote(-1, "All Quotes Read", "Dagim")
     }
 
     fun markQuoteAsRead(quoteId: Int): Boolean {
@@ -178,6 +178,46 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
 
         return favoriteQuotes
     }
+
+    @SuppressLint("Range")
+
+    fun searchQuotes(search: String): List<Quote> {
+        val db: SQLiteDatabase = this.readableDatabase
+
+        val query = "SELECT * FROM $TABLE_NAME WHERE $CONTENT LIKE ? OR $AUTHOR LIKE ?"
+        val selectionArgs = arrayOf("%$search%","%$search%")
+
+        val cursor: Cursor = db.rawQuery(query, selectionArgs)
+
+        val quotes = mutableListOf<Quote>()
+
+        if (cursor.moveToFirst()) {
+            do {
+                val id = cursor.getInt(cursor.getColumnIndex(ID))
+                val content = cursor.getString(cursor.getColumnIndex(CONTENT))
+                val author = cursor.getString(cursor.getColumnIndex(AUTHOR))
+                val isRead = cursor.getInt(cursor.getColumnIndex(IS_READ)) == 1
+                val isFavorite = cursor.getInt(cursor.getColumnIndex(IS_FAVORITE)) == 1
+                val favoriteOrder = cursor.getInt(cursor.getColumnIndex(FAVORITE_ORDER))
+Log.d("here", "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 1 $author")
+                val quote = Quote(
+                    id = id,
+                    content = content,
+                    author = author,
+                    isRead = isRead,
+                    isFavorite = isFavorite,
+                    favoriteOrder = favoriteOrder
+                )
+                quotes.add(quote)
+            } while (cursor.moveToNext())
+        }
+
+        cursor.close()
+        db.close()
+
+        return quotes
+    }
+
 
     companion object {
         private const val DATABASE_NAME = "Daily_Quote_App"
