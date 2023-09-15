@@ -45,10 +45,14 @@ import codsoft.dagno1.quotelytics.ui.theme.WhiteSmoke
 @Composable
 fun QuoteCard(quote: Quote, context: Context) {
     var favorite by remember {
-        mutableStateOf(R.drawable.favorite_outline)
+        mutableStateOf(
+            if (quote.isFavorite) R.drawable.favorite else R.drawable.favorite_outline
+        )
     }
     var iconColor by remember {
-        mutableStateOf(DarkStateGray)
+        mutableStateOf(
+            if (quote.isFavorite) FavoriteRed else DarkStateGray
+        )
     }
     val dbHelper = DBHelper(context, null)
     Card(

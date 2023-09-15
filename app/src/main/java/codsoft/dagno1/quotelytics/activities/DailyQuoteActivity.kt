@@ -1,5 +1,6 @@
 package codsoft.dagno1.quotelytics.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -68,6 +69,8 @@ class DailyQuoteActivity : ComponentActivity() {
                     }
                     FloatingActionButton(
                         onClick = {
+                            val intent = Intent(context, FavoritesActivity::class.java)
+                            context.startActivity(intent)
                         },
                         containerColor = DarkStateGray,
                         modifier = Modifier

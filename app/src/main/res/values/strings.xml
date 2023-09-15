@@ -9,5 +9,6 @@
     <string name="onboarding_body2">Embark on a journey of daily discovery. QuoteQuest is your companion for seeking meaningful quotes that uplift and motivate.</string>
     <string name="title_activity_daily_quote">DailyQuoteActivity</string>
     <string name="get_first_quote">Get first quote</string>
+    <string name="title_activity_favorites">FavoritesActivity</string>
 
 </resources>
