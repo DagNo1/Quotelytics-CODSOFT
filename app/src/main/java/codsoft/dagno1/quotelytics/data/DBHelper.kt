@@ -199,7 +199,6 @@ class DBHelper(context: Context, factory: SQLiteDatabase.CursorFactory?) :
                 val isRead = cursor.getInt(cursor.getColumnIndex(IS_READ)) == 1
                 val isFavorite = cursor.getInt(cursor.getColumnIndex(IS_FAVORITE)) == 1
                 val favoriteOrder = cursor.getInt(cursor.getColumnIndex(FAVORITE_ORDER))
-Log.d("here", "++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ 1 $author")
                 val quote = Quote(
                     id = id,
                     content = content,

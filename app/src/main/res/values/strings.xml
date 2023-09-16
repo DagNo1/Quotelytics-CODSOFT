@@ -10,5 +10,8 @@
     <string name="title_activity_daily_quote">DailyQuoteActivity</string>
     <string name="get_first_quote">Get first quote</string>
     <string name="title_activity_favorites">FavoritesActivity</string>
+    <string name="title_activity_search">SearchActivity</string>
+    <string name="title_activity_spash_screen">SpashScreen</string>
+    <string name="title_activity_main">MainActivity</string>
 
 </resources>

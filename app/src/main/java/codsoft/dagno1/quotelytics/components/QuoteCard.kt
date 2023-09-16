@@ -113,7 +113,6 @@ fun QuoteCard(quote: Quote, context: Context) {
                             "++++++++++++++++++++++++  " +
                                     "${quote.id}${quote.isFavorite}"
                         )
-
                     } else {
                         quote.isFavorite = dbHelper.markQuoteAsFavorite(quoteId = quote.id)
                         favorite = R.drawable.favorite
@@ -123,6 +122,7 @@ fun QuoteCard(quote: Quote, context: Context) {
                             "++++++++++++++++++++++++  " +
                                     "${quote.id} is favorite = ${quote.isFavorite}"
                         )
+                        quote.isRead = dbHelper.markQuoteAsRead(quoteId = quote.id) //making sure
                     }
                 },
                 modifier = Modifier

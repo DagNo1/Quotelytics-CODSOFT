@@ -16,6 +16,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -25,8 +27,6 @@ import codsoft.dagno1.quotelytics.components.QuoteCard
 import codsoft.dagno1.quotelytics.components.SetStatusBarColor
 import codsoft.dagno1.quotelytics.data.DBHelper
 import codsoft.dagno1.quotelytics.ui.theme.DarkStateGray
-import codsoft.dagno1.quotelytics.ui.theme.Gray
-import codsoft.dagno1.quotelytics.ui.theme.Mint
 import codsoft.dagno1.quotelytics.ui.theme.QuotelyticsTheme
 import codsoft.dagno1.quotelytics.ui.theme.Silver
 
@@ -63,6 +63,26 @@ class DailyQuoteActivity : ComponentActivity() {
                                 .width(200.dp)
                                 .height(40.dp)
                         )
+
+                    }
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(horizontal = 5.dp)
+                    ) {
+                        IconButton(
+                            onClick = {
+                                val intent = Intent(context, SearchActivity::class.java)
+                                context.startActivity(intent)
+                            },
+                            modifier = Modifier
+                                .size(40.dp)
+                        ) {
+                            Icon(
+                                painter = painterResource(id = R.drawable.search),
+                                contentDescription = "Copy Icon",
+                            )
+                        }
                     }
                     Box(
                         modifier = Modifier
